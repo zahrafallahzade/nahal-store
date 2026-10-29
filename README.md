@@ -32,12 +32,11 @@ php artisan serve
 
 ## Known limitations
 - No payment gateway: the "Pay" button only creates the order.
-- Admin/manager routes are not protected by middleware yet.
 - Product stock is not decreased on checkout.
 - Database seeder is not finished.
 - No default admin account: set a user's role manually in the database.
 
 ## Roadmap
-- Role middleware, upload validation, logout
+- upload validation, logout
 - Store item price at purchase time
 - Tests
