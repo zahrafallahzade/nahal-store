@@ -36,107 +36,109 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 
 
-
-
 Route::get('/', [HomeController::class, 'index']);
 
+Route::middleware('role:admin')->group(function () {
 
-Route::get('/admin' , function(){
-    return redirect('/admin/dashboard');
+    Route::get('/admin', function () {
+        return redirect('/admin/dashboard');
+    });
+
+    Route::get('/admin/dashboard', [AdminDashboardController::class, 'index']);
+
+    Route::get('/admin/products', [ProductController::class, 'index']);
+
+    Route::post('/admin/products', [ProductController::class, 'store']);
+
+    Route::post('/admin/products/{id}/update', [ProductController::class, 'update']);
+
+    Route::post('/admin/products/{id}/delete', [ProductController::class, 'destroy']);
+
+    Route::post('/admin/products/{id}/activate', [ProductController::class, 'activate']);
+
+    Route::post('/admin/products/images/{id}/delete', [ProductController::class, 'deleteImage']);
+
+    Route::get('/admin/categories', [CategoryController::class, 'index']);
+
+    Route::post('/admin/categories', [CategoryController::class, 'store']);
+    Route::post('/admin/categories/{id}/update', [CategoryController::class, 'update']);
+    Route::post('/admin/categories/{id}/delete', [CategoryController::class, 'destroy']);
+
+    Route::get('/admin/orders', [OrderController::class, 'index']);
+
+    Route::get('/admin/users', [UserController::class, 'index']);
+
+    Route::post('/admin/users/{id}/ban', [UserController::class, 'ban']);
+
+    Route::get('/admin/reviews', [ReviewController::class, 'index']);
+
+    Route::post('/admin/reviews/{id}/approve', [ReviewController::class, 'approve']);
+    Route::post('/admin/reviews/{id}/flag', [ReviewController::class, 'flag']);
+
+    Route::get('/admin/account', function () {
+        return view('admin.account');
+    });
+
+    Route::post('/admin/account/update', [AccountController::class, 'update']);
+    Route::post('/admin/account/password', [AccountController::class, 'changePassword']);
+
+    Route::get('/admin/products/create', function () {
+        return view('admin.products.create', ['categories' => \App\Models\Category::all()]);
+    });
+
+    Route::get('/admin/products/{id}/edit', [ProductController::class, 'edit']);
+
+    Route::get('/admin/categories/create', function () {
+        return view('admin.categories.create');
+    });
+
+    Route::get('/admin/categories/{id}/edit', [CategoryController::class, 'edit']);
+
+    Route::post('/admin/orders/bulk-update', [OrderController::class, 'bulkUpdate']);
+
+    Route::get('/admin/orders/{id}', [OrderController::class, 'show']);
+
 });
 
-Route::get('/admin/dashboard', [AdminDashboardController::class, 'index']);
 
-Route::get('/admin/products', [ProductController::class, 'index']);
+Route::middleware('role:manager')->group(function () {
 
-Route::post('/admin/products', [ProductController::class, 'store']);
+    Route::get('/manager/products', [ManagerProductController::class, 'index']);
 
-Route::post('/admin/products/{id}/update', [ProductController::class, 'update']);
+    Route::get('/manager/orders', [ManagerOrderController::class, 'index']);
 
-Route::post('/admin/products/{id}/delete', [ProductController::class, 'destroy']);
+    Route::get('/manager/users', [ManagerUserController::class, 'index']);
 
-Route::post('/admin/products/{id}/activate', [ProductController::class, 'activate']);
+    Route::get('/manager/users/{id}/reviews', [ManagerUserController::class, 'reviews']);
+    Route::post('/manager/reviews/{id}/delete-comment', [ManagerUserController::class, 'deleteReviewComment']);
 
-Route::post('/admin/products/images/{id}/delete', [ProductController::class, 'deleteImage']);
+    Route::get('/manager/account', function () {
+        return view('manager.account');
+    });
 
-Route::get('/admin/categories', [CategoryController::class, 'index']);
+    Route::post('/manager/account/update', [ManagerAccountController::class, 'update']);
+    Route::post('/manager/account/password', [ManagerAccountController::class, 'changePassword']);
 
-Route::post('/admin/categories', [CategoryController::class, 'store']);
-Route::post('/admin/categories/{id}/update', [CategoryController::class, 'update']);
-Route::post('/admin/categories/{id}/delete', [CategoryController::class, 'destroy']);
+    Route::get('/manager/roles', [RoleController::class, 'index']);
+    Route::post('/manager/roles/{id}/update', [RoleController::class, 'updateRole']);
 
-Route::get('/admin/orders', [OrderController::class, 'index']);
+    Route::get('/manager/reports', [ReportController::class, 'index']);
 
-Route::get('/admin/users', [UserController::class, 'index']);
+    Route::get('/manager/reports/{id}', [ReportController::class, 'show']);
 
-Route::post('/admin/users/{id}/ban', [UserController::class, 'ban']);
+    Route::get('/manager/dashboard', [DashboardController::class, 'index']);
 
-Route::get('/admin/reviews', [ReviewController::class, 'index']);
+    Route::get('/manager', [DashboardController::class, 'index']);
 
-Route::post('/admin/reviews/{id}/approve', [ReviewController::class, 'approve']);
-Route::post('/admin/reviews/{id}/flag', [ReviewController::class, 'flag']);
-
-Route::get('/admin/account', function(){
-    return view('admin.account');
 });
 
-Route::post('/admin/account/update', [AccountController::class, 'update']);
-Route::post('/admin/account/password', [AccountController::class, 'changePassword']);
 
-Route::get('/admin/products/create', function(){
-    return view('admin.products.create', ['categories' => \App\Models\Category::all()]);
-});
-
-Route::get('/admin/products/{id}/edit', [ProductController::class, 'edit']);
-
-Route::get('/admin/categories/create', function(){
-    return view('admin.categories.create');
-});
-
-Route::get('/admin/categories/{id}/edit', [CategoryController::class, 'edit']);
-
-Route::post('/admin/orders/bulk-update', [OrderController::class, 'bulkUpdate']);
-
-Route::get('/admin/orders/{id}', [OrderController::class, 'show']);
-
-
-
-
-Route::get('/manager/products', [ManagerProductController::class, 'index']);
-
-Route::get('/manager/orders', [ManagerOrderController::class, 'index']);
-
-Route::get('/manager/users', [ManagerUserController::class, 'index']);
-
-Route::get('/manager/users/{id}/reviews', [ManagerUserController::class, 'reviews']);
-Route::post('/manager/reviews/{id}/delete-comment', [ManagerUserController::class, 'deleteReviewComment']);
-
-Route::get('/manager/account', function(){
-    return view('manager.account');
-});
-
-Route::post('/manager/account/update', [ManagerAccountController::class, 'update']);
-Route::post('/manager/account/password', [ManagerAccountController::class, 'changePassword']);
-
-Route::get('/manager/roles', [RoleController::class, 'index']);
-Route::post('/manager/roles/{id}/update', [RoleController::class, 'updateRole']);
-
-Route::get('/manager/reports', [ReportController::class, 'index']);
-
-Route::get('/manager/reports/{id}', [ReportController::class, 'show']);
-
-Route::get('/manager/dashboard', [DashboardController::class, 'index']);
-
-Route::get('/manager', [DashboardController::class, 'index']);
-
-
-
-Route::get('/login', function(){
+Route::get('/login', function () {
     return view('auth.login');
 });
 Route::post('/login', [LoginController::class, 'login']);
 
-Route::get('/register', function(){
+Route::get('/register', function () {
     return view('auth.register');
 });
 Route::post('/register', [RegisterController::class, 'register']);
@@ -149,15 +151,15 @@ Route::get('/products', [ProductListController::class, 'index']);
 
 Route::get('/products/{id}', [ProductListController::class, 'show']);
 
-Route::get('/profile', function(){
+Route::get('/profile', function () {
     return view('shop.profile');
 });
 
-Route::get('/about', function(){
+Route::get('/about', function () {
     return view('shop.about');
 });
 
-Route::get('/contact', function(){
+Route::get('/contact', function () {
     return view('shop.contact');
 });
 
