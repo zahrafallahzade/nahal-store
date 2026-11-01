@@ -11,19 +11,19 @@
                 @csrf
                 <div class="mb-3">
                     <label class="fw-bold">نام</label>
-                    <input type="text" name="first_name" class="form-control" value="{{ old('first_name', auth()->user()->first_name) }}">
+                    <input type="text" name="first_name" class="form-control" value="{{ old('first_name', auth()->user()?->first_name) }}">
                 </div>
                 <div class="mb-3">
                     <label class="fw-bold">نام خانوادگی</label>
-                    <input type="text" name="last_name" class="form-control" value="{{ old('last_name', auth()->user()->last_name) }}">
+                    <input type="text" name="last_name" class="form-control" value="{{ old('last_name', auth()->user()?->last_name) }}">
                 </div>
                 <div class="mb-3">
                     <label class="fw-bold">نام کاربری</label>
-                    <input type="text" name="username" class="form-control" value="{{ old('username', auth()->user()->username) }}">
+                    <input type="text" name="username" class="form-control" value="{{ old('username', auth()->user()?->username) }}">
                 </div>
                 <div class="mb-3">
                     <label class="fw-bold">شماره موبایل</label>
-                    <input type="text" name="phone" class="form-control" value="{{ old('phone', auth()->user()->phone) }}">
+                    <input type="text" name="phone" class="form-control" value="{{ old('phone', auth()->user()?->phone) }}">
                 </div>
 
                 <hr>

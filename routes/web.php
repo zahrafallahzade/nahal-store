@@ -144,8 +144,6 @@ Route::get('/register', function () {
 Route::post('/register', [RegisterController::class, 'register']);
 
 
-Route::post('/profile/update', [ProfileController::class, 'updateProfile']);     //اطلاعات شخصی و آدرس کاربر
-Route::post('/profile/password', [ProfileController::class, 'changePassword']);   //درخواست تغییر رمز عبور
 
 Route::get('/products', [ProductListController::class, 'index']);
 
@@ -167,8 +165,14 @@ Route::get('/cart', [CartController::class, 'index']);
 
 Route::get('/orders', [OrderHistoryController::class, 'index']);
 
-Route::post('/products/{id}/review', [ReviewSubmitController::class, 'store']);
 
-Route::post('/cart/add/{id}', [CartController::class, 'store']);
 
-Route::post('/checkout', [CartController::class, 'checkout']);
+
+
+Route::middleware('auth')->group(function () {
+    Route::post('/profile/update', [ProfileController::class, 'updateProfile']);     //اطلاعات شخصی و آدرس کاربر
+    Route::post('/profile/password', [ProfileController::class, 'changePassword']);   //درخواست تغییر رمز عبور
+    Route::post('/products/{id}/review', [ReviewSubmitController::class, 'store']);
+    Route::post('/cart/add/{id}', [CartController::class, 'store']);
+    Route::post('/checkout', [CartController::class, 'checkout']);
+});
