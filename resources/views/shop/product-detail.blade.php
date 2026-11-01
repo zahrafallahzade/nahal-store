@@ -20,7 +20,7 @@
             <h6 class="mt-3">توضیحات</h6>
             <p>{{ $product->description }}</p>
 
-            @if($product->stock > 0)
+            @if($product->is_active && $product->stock > 0)
                 <form method="POST" action="{{ url('/cart/add/'.$product->id) }}">
                     @csrf
                     <div class="d-flex align-items-center gap-2 mb-3">

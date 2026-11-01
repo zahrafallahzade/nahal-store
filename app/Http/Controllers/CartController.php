@@ -7,26 +7,37 @@ use App\Models\CartItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;   //تشخیص کاربر
 use App\Models\Order;
+use App\Models\Product;
 
 class CartController extends Controller  //مدیریت سبد خرید و ثبت سفارش
 {
     public function store(Request $request, $productId)  //اضافه کردن محصول به سبد خرید
     {
+        $product = Product::where('is_active', true)->findOrFail($productId);
+
         $request->validate([
             'quantity' => 'required|integer|min:1',
+        ], [], [
+            'quantity' => 'تعداد',
         ]);
 
         $existing = CartItem::where('user_id', Auth::id())
-            ->where('product_id', $productId)
+            ->where('product_id', $product->id)
             ->first();
 
+        $newQuantity = ($existing ? $existing->quantity : 0) + $request->quantity;
+
+        if ($newQuantity > $product->stock) {
+            return back()->with('error', 'موجودی این محصول کافی نیست.');
+        }
+
         if ($existing) {
-            $existing->update(['quantity' => $existing->quantity + $request->quantity]);
+            $existing->update(['quantity' => $newQuantity]);
         } else {
             CartItem::create([
                 'user_id' => Auth::id(),
-                'product_id' => $productId,
-                'quantity' => $request->quantity,
+                'product_id' => $product->id,
+                'quantity' => $newQuantity,
             ]);
         }
 
