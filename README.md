@@ -9,6 +9,7 @@ University project.
 - Admin panel: products (with multiple images, activate/deactivate), categories, orders (bulk status update), users, review moderation with user ban
 - Manager panel: dashboard, sales reports by category, user roles
 - Persian (RTL) interface and Persian validation messages
+- Custom Persian error pages
 
 ## Tech
 PHP 8.3, Laravel 13, MySQL, Bootstrap 5 (RTL), Blade
@@ -19,7 +20,7 @@ PHP 8.3, Laravel 13, MySQL, Bootstrap 5 (RTL), Blade
 - MySQL
 
 ## Setup
-bash
+```bash
 git clone https://github.com/zahrafallahzade/nahal-store.git
 cd nahal-store
 composer install
@@ -28,6 +29,7 @@ php artisan key:generate
 # create a MySQL database named nahal-store, then:
 php artisan migrate
 php artisan serve
+```
 
 
 ## Known limitations
@@ -37,6 +39,6 @@ php artisan serve
 - No default admin account: set a user's role manually in the database.
 
 ## Roadmap
-- upload validation, logout
+- Logout
 - Store item price at purchase time
 - Tests
