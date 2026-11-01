@@ -175,4 +175,5 @@ Route::middleware('auth')->group(function () {
     Route::post('/products/{id}/review', [ReviewSubmitController::class, 'store']);
     Route::post('/cart/add/{id}', [CartController::class, 'store']);
     Route::post('/checkout', [CartController::class, 'checkout']);
+    Route::post('/logout', [LoginController::class, 'logout']);
 });

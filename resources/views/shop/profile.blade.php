@@ -64,7 +64,10 @@
         </div>
     </div>
 
-    <a href="{{ url('/logout') }}" class="btn btn-outline-danger">خروج از حساب</a>
+    <form method="POST" action="{{ url('/logout') }}">
+        @csrf
+        <button type="submit" class="btn btn-outline-danger">خروج از حساب</button>
+    </form>
 
     <div class="modal fade" id="changePasswordModal" tabindex="-1">
         <div class="modal-dialog">

@@ -16,6 +16,8 @@ class LoginController extends Controller{
 
         if(Auth::attempt(['phone' => $request -> phone,'password' => $request -> password])){
 
+            $request->session()->regenerate();    //توضیح لازمه
+
             $user = Auth::user();
 
             if ($user->role === 'admin'){
@@ -28,5 +30,15 @@ class LoginController extends Controller{
         }
 
         return back()->withErrors(['login' => 'شماره موبایل یا رمزعبور اشتباه است!']);
+    }
+
+    public function logout(Request $request){   //خروج از حساب
+
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/login');
     }
 }

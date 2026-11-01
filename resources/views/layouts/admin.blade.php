@@ -23,6 +23,12 @@
             <li class="mb-2"><a href="{{ url('/admin/users') }}" class="text-white text-decoration-none"><i class="bi bi-people"></i> کاربران</a></li>
             <li class="mb-2"><a href="{{ url('/admin/reviews') }}" class="text-white text-decoration-none"><i class="bi bi-chat-dots"></i> نظرات</a></li>
             <li class="mb-2"><a href="{{ url('/admin/account') }}" class="text-white text-decoration-none"><i class="bi bi-gear"></i> تنظیمات حساب</a></li>
+            <li class="mb-2">
+                <form method="POST" action="{{ url('/logout') }}">
+                    @csrf
+                    <button type="submit" class="btn btn-link text-white text-decoration-none p-0"><i class="bi bi-box-arrow-right"></i> خروج از حساب</button>
+                </form>
+            </li>
         </ul>
     </aside>
 

@@ -29,6 +29,12 @@
             <li class="mb-2"><a href="{{ url('/manager/reports') }}" class="text-white text-decoration-none"><i class="bi bi-graph-up"></i> گزارش‌های مالی و فروش</a></li>
             <li class="mb-2"><a href="{{ url('/manager/roles') }}" class="text-white text-decoration-none"><i class="bi bi-person-badge"></i> مدیریت نقش‌ها و دسترسی‌ها</a></li>
             <li class="mb-2"><a href="{{ url('/manager/account') }}" class="text-white text-decoration-none"><i class="bi bi-gear"></i> تنظیمات حساب</a></li>
+            <li class="mb-2">
+                <form method="POST" action="{{ url('/logout') }}">
+                    @csrf
+                    <button type="submit" class="btn btn-link text-white text-decoration-none p-0"><i class="bi bi-box-arrow-right"></i> خروج از حساب</button>
+                </form>
+            </li>
         </ul>
     </aside>
 
