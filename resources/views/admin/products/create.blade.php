@@ -4,6 +4,16 @@
 
     <h1 class="mb-4">افزودن محصول جدید</h1>
 
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <div class="card">
         <div class="card-body">
             <form method="POST" action="{{ url('/admin/products') }}" enctype="multipart/form-data">

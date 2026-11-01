@@ -37,6 +37,9 @@ class ProductController extends Controller{
             'description' => 'required|string',
             'price' => 'required|integer',
             'stock' => 'required|integer',
+            'images.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048',
+        ], [], [
+            'images.*' => 'عکس محصول',
         ]);
 
         $product = Product::create([
@@ -67,6 +70,9 @@ class ProductController extends Controller{
             'description' => 'required|string',
             'price' => 'required|integer',
             'stock' => 'required|integer',
+            'new_images.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048',
+        ], [], [
+            'new_images.*' => 'عکس محصول',
         ]);
 
         $product = Product::findOrFail($id);
