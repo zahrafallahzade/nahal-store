@@ -8,6 +8,8 @@ University project.
 - Auth: register and login, user profile with address
 - Admin panel: products (with multiple images, activate/deactivate), categories, orders (bulk status update), users, review moderation with user ban
 - Manager panel: dashboard, sales reports by category, user roles
+- Role-based access (user, admin, manager) with route middleware; guests are redirected to login
+- Cart checks: inactive or out-of-stock products cannot be added, and the product page shows an unavailable state
 - Persian (RTL) interface and Persian validation messages
 - Custom Persian error pages
 
