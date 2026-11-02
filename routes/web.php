@@ -32,7 +32,7 @@ use App\Http\Controllers\CartController;
 
 
 //کنترلر های ورود و ثبت نام
-use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LogController;
 use App\Http\Controllers\Auth\RegisterController;
 
 
@@ -136,7 +136,7 @@ Route::middleware('role:manager')->group(function () {
 Route::get('/login', function () {
     return view('auth.login');
 });
-Route::post('/login', [LoginController::class, 'login']);
+Route::post('/login', [LogController::class, 'login']);
 
 Route::get('/register', function () {
     return view('auth.register');
@@ -175,5 +175,5 @@ Route::middleware('auth')->group(function () {
     Route::post('/products/{id}/review', [ReviewSubmitController::class, 'store']);
     Route::post('/cart/add/{id}', [CartController::class, 'store']);
     Route::post('/checkout', [CartController::class, 'checkout']);
-    Route::post('/logout', [LoginController::class, 'logout']);
+    Route::post('/logout', [LogController::class, 'logout']);
 });

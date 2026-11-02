@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 
-class LoginController extends Controller{
+class LogController extends Controller{
     public function login(Request $request){
         $request->validate([
             'phone' => 'required|digits:11',
@@ -16,7 +16,7 @@ class LoginController extends Controller{
 
         if(Auth::attempt(['phone' => $request -> phone,'password' => $request -> password])){
 
-            $request->session()->regenerate();    //توضیح لازمه
+            $request->session()->regenerate();
 
             $user = Auth::user();
 
