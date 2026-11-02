@@ -5,7 +5,7 @@ University project.
 
 ## Features
 - Shop: product list with search and category filter, product page with reviews and ratings, cart, checkout, order history
-- Auth: register and login, user profile with address
+- Auth: register, login and logout, user profile with address
 - Admin panel: products (with multiple images, activate/deactivate), categories, orders (bulk status update), users, review moderation with user ban
 - Manager panel: dashboard, sales reports by category, user roles
 - Role-based access (user, admin, manager) with route middleware; guests are redirected to login
@@ -41,6 +41,6 @@ php artisan serve
 - No default admin account: set a user's role manually in the database.
 
 ## Roadmap
-- Logout
 - Store item price at purchase time
 - Tests
+- Mock payment page connected through an API
