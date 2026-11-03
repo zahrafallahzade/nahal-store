@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class AccountController extends Controller
 {
@@ -14,8 +15,8 @@ class AccountController extends Controller
         $request->validate([
             'first_name' => 'required|string',
             'last_name' => 'required|string',
-            'username' => 'required',
-            'phone' => 'required|digits:11',
+            'username' => ['required', Rule::unique('users', 'username')->ignore(Auth::id())],
+            'phone' => ['required', 'digits:11', Rule::unique('users', 'phone')->ignore(Auth::id())],
         ]);
 
         $user = Auth::user();

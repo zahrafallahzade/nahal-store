@@ -20,10 +20,16 @@
                 <div class="mb-3">
                     <label class="fw-bold">نام کاربری</label>
                     <input type="text" name="username" class="form-control" value="{{ old('username', auth()->user()?->username) }}">
+                    @error('username')
+                    <div class="text-danger small">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="mb-3">
                     <label class="fw-bold">شماره موبایل</label>
                     <input type="text" name="phone" class="form-control" value="{{ old('phone', auth()->user()?->phone) }}">
+                    @error('phone')
+                    <div class="text-danger small">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 <hr>

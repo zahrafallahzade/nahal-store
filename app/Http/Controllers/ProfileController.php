@@ -7,6 +7,7 @@ use App\Models\Address;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class ProfileController extends Controller
 {
@@ -15,8 +16,8 @@ class ProfileController extends Controller
         $request->validate([
             'first_name' => 'required|string',
             'last_name' => 'required|string',
-            'username' => 'required',
-            'phone' => 'required|digits:11',
+            'username' => ['required', Rule::unique('users', 'username')->ignore(Auth::id())],
+            'phone' => ['required', 'digits:11', Rule::unique('users', 'phone')->ignore(Auth::id())],
             'province' => 'required',
             'city' => 'required',
             'address' => 'required',
