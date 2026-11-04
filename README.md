@@ -6,6 +6,7 @@ University project.
 ## Features
 - Shop: product list with search and category filter, product page with reviews and ratings, cart, checkout, order history
 - Auth: register, login and logout, user profile with address
+- Profile updates (user, admin, manager) reject a phone number or username that belongs to another user
 - Admin panel: products (with multiple images, activate/deactivate), categories, orders (bulk status update), users, review moderation with user ban
 - Manager panel: dashboard, sales reports by category, user roles
 - Role-based access (user, admin, manager) with route middleware; guests are redirected to login
@@ -33,12 +34,18 @@ php artisan migrate
 php artisan serve
 ```
 
+## Testing
+```bash
+php artisan test
+```
+Tests run on an in-memory SQLite database, so the `pdo_sqlite` PHP extension is required. Your MySQL data is not touched.
 
 ## Known limitations
 - No payment gateway: the "Pay" button only creates the order.
 - Product stock is not decreased on checkout.
 - Database seeder is not finished.
 - No default admin account: set a user's role manually in the database.
+- Phone and username uniqueness is checked in validation only (no database unique index).
 
 ## Roadmap
 - Store item price at purchase time
