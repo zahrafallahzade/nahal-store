@@ -45,7 +45,7 @@ Tests run on an in-memory SQLite database, so the `pdo_sqlite` PHP extension is 
 - Product stock is not decreased on checkout.
 - Database seeder is not finished.
 - No default admin account: set a user's role manually in the database.
-- Phone and username uniqueness is checked in validation only (no database unique index).
+
 
 ## Roadmap
 - Store item price at purchase time

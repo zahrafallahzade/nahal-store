@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
+use Illuminate\Database\QueryException;
 
 class ProfileUpdateTest extends TestCase   //تست ویرایش اطلاعات حساب برای کاربر، ادمین و مدیر
 {
@@ -120,5 +121,23 @@ class ProfileUpdateTest extends TestCase   //تست ویرایش اطلاعات 
         $admin = $this->makeUser('admin', 'admin1', '09120000009');
 
         $this->actingAs($admin)->get('/manager/account')->assertForbidden();
+    }
+
+    public function test_database_rejects_duplicate_phone(): void   //خود دیتابیس باید شماره تکراری را رد کند، حتی بدون validate
+    {
+        $this->makeUser('user', 'first', '09120000001');
+
+        $this->expectException(QueryException::class);
+
+        $this->makeUser('user', 'second', '09120000001');
+    }
+
+    public function test_database_rejects_duplicate_username(): void   //خود دیتابیس باید نام کاربری تکراری را رد کند، حتی بدون validate
+    {
+        $this->makeUser('user', 'same', '09120000001');
+
+        $this->expectException(QueryException::class);
+
+        $this->makeUser('user', 'same', '09120000002');
     }
 }
