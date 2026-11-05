@@ -30,9 +30,20 @@ composer install
 cp .env.example .env
 php artisan key:generate
 # create a MySQL database named nahal-store, then:
-php artisan migrate
+php artisan migrate --seed
 php artisan serve
 ```
+
+## Default accounts
+Created by `php artisan migrate --seed`:
+
+| Role | Phone | Password |
+|---|---|---|
+| Admin | 09120000001 | admin123 |
+| Manager | 09120000002 | manager123 |
+| Customer | 09120000003 | customer123 |
+
+For local development only. Change these passwords before any real deployment.
 
 ## Testing
 ```bash
@@ -42,8 +53,6 @@ Tests run on an in-memory SQLite database, so the `pdo_sqlite` PHP extension is 
 
 ## Known limitations
 - No payment gateway: the "Pay" button only creates the order.
-- Database seeder is not finished.
-- No default admin account: set a user's role manually in the database.
 
 
 ## Roadmap
