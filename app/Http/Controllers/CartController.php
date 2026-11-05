@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;   //تشخیص کاربر
 use App\Models\Order;
 use App\Models\Product;
+use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller  //مدیریت سبد خرید و ثبت سفارش
 {
@@ -55,11 +56,9 @@ class CartController extends Controller  //مدیریت سبد خرید و ثب�
         return view('shop.cart', compact('cartItems', 'subtotal', 'shippingCost', 'total'));
     }
 
-    public function checkout()  //بررسی سبد و آدرس، ساخت سفارش و ثبت اقلام آن
+    public function checkout()  //بررسی سبد و آدرس، ساخت سفارش، ذخیره قیمت اقلام و کم کردن موجودی
     {
-        $cartItems = CartItem::where('user_id', Auth::id())
-            ->with('product')
-            ->get();
+        $cartItems = CartItem::where('user_id', Auth::id())->get();
 
         if ($cartItems->isEmpty()) {
             return back()->with('error', 'سبد خرید خالی است.');
@@ -71,29 +70,48 @@ class CartController extends Controller  //مدیریت سبد خرید و ثب�
             return back()->with('error', 'لطفاً ابتدا آدرس خود را ثبت کنید.');
         }
 
-        $subtotal = $cartItems->sum(fn($item) => $item->quantity * $item->product->price);
-
         $shippingCost = 50000;
-        $total = $subtotal + $shippingCost;
 
-        $order = Order::create([
-            'user_id' => Auth::id(),
-            'address_id' => $address->id,
-            'shipping_cost' => $shippingCost,
-            'total_price' => $total,
-            'status' => 'pending',
-            'ordered_at' => now(),
-        ]);
+        try {
+            DB::transaction(function () use ($cartItems, $address, $shippingCost) {
 
-        foreach ($cartItems as $item) {
-            $order->orderItems()->create([
-                'product_id' => $item->product_id,
-                'quantity' => $item->quantity,
-            ]);
+                $order = Order::create([
+                    'user_id' => Auth::id(),
+                    'address_id' => $address->id,
+                    'shipping_cost' => $shippingCost,
+                    'total_price' => 0,
+                    'status' => 'pending',
+                    'ordered_at' => now(),
+                ]);
+
+                $subtotal = 0;
+
+                foreach ($cartItems as $item) {
+                    $product = Product::where('is_active', true)->lockForUpdate()->find($item->product_id);
+
+                    if (!$product || $product->stock < $item->quantity) {
+                        throw new \RuntimeException('موجودی یکی از محصولات سبد خرید کافی نیست یا این محصول دیگر فعال نیست.');
+                    }
+
+                    $order->orderItems()->create([
+                        'product_id' => $product->id,
+                        'quantity' => $item->quantity,
+                        'price' => $product->price,
+                    ]);
+
+                    $product->decrement('stock', $item->quantity);
+
+                    $subtotal += $item->quantity * $product->price;
+                }
+
+                $order->update(['total_price' => $subtotal + $shippingCost]);
+
+                CartItem::where('user_id', Auth::id())->delete();
+            });
+        } catch (\RuntimeException $e) {
+            return back()->with('error', $e->getMessage());
         }
 
-        CartItem::where('user_id', Auth::id())->delete();
-
-        return redirect('/orders')->with('success', 'پرداخت با موفقیت انجام شد.');
+        return redirect('/orders')->with('success', 'سفارش شما با موفقیت ثبت شد.');
     }
 }

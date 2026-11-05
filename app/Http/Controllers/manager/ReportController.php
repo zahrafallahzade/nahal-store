@@ -14,7 +14,7 @@ class ReportController extends Controller
             $items = OrderItem::whereHas('product', fn($q) => $q->where('category_id', $category->id))->with('product')->get();
 
             $category->total_qty = $items->sum('quantity');
-            $category->total_revenue = $items->sum(fn($item) => $item->quantity * $item->product->price);
+            $category->total_revenue = $items->sum(fn($item) => $item->quantity * $item->price);
 
             return $category;
         });
@@ -36,7 +36,7 @@ class ReportController extends Controller
             return [
                 'name' => $product->name,
                 'qty' => $group->sum('quantity'),
-                'revenue' => $group->sum(fn($item) => $item->quantity * $product->price),
+                'revenue' => $group->sum(fn($item) => $item->quantity * $item->price),
             ];
         });
 

@@ -26,7 +26,7 @@
                     <tr>
                         <td>{{ $item->product->name }}</td>
                         <td>{{ $item->quantity }}</td>
-                        <td>{{ number_format($item->quantity * $item->product->price) }} تومان</td>
+                        <td>{{ number_format($item->quantity * $item->price) }} تومان</td>
                     </tr>
                 @endforeach
                 </tbody>
@@ -36,9 +36,9 @@
 
     <div class="card">
         <div class="card-body">
-            <p class="mb-1"><strong>مبلغ کالاها:</strong> {{ number_format($order->orderItems->sum(fn($item) => $item->quantity * $item->product->price)) }} تومان</p>
+            <p class="mb-1"><strong>مبلغ کالاها:</strong> {{ number_format($order->orderItems->sum(fn($item) => $item->quantity * $item->price)) }} تومان</p>
             <p class="mb-1"><strong>هزینه ارسال:</strong> {{ number_format($order->shipping_cost) }} تومان</p>
-            <p class="mb-0 fw-bold"><strong>مبلغ کل:</strong> {{ number_format($order->orderItems->sum(fn($item) => $item->quantity * $item->product->price) + $order->shipping_cost) }} تومان</p>
+            <p class="mb-0 fw-bold"><strong>مبلغ کل:</strong> {{ number_format($order->orderItems->sum(fn($item) => $item->quantity * $item->price) + $order->shipping_cost) }} تومان</p>
         </div>
     </div>
 

@@ -37,7 +37,7 @@
                         <td><input type="checkbox" name="order_ids[]" value="{{ $order->id }}" class="rowCheck"></td>
                         <td>{{ $order->id }}</td>
                         <td>{{ $order->user->first_name }} {{ $order->user->last_name }}</td>
-                        <td>{{ number_format($order->orderItems->sum(fn($item) => $item->quantity * $item->product->price) + $order->shipping_cost) }} تومان</td>
+                        <td>{{ number_format($order->orderItems->sum(fn($item) => $item->quantity * $item->price) + $order->shipping_cost) }} تومان</td>
                         <td>
                             @switch($order->status)
                                 @case('pending') <span class="text-warning">در انتظار</span> @break

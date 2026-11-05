@@ -42,12 +42,10 @@ Tests run on an in-memory SQLite database, so the `pdo_sqlite` PHP extension is 
 
 ## Known limitations
 - No payment gateway: the "Pay" button only creates the order.
-- Product stock is not decreased on checkout.
 - Database seeder is not finished.
 - No default admin account: set a user's role manually in the database.
 
 
 ## Roadmap
-- Store item price at purchase time
 - Tests
 - Mock payment page connected through an API

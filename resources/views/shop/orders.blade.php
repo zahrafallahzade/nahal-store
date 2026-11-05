@@ -27,14 +27,14 @@
                             </td>
                             <td>{{ $item->product->name }}</td>
                             <td>{{ $item->quantity }} عدد</td>
-                            <td>{{ number_format($item->quantity * $item->product->price) }} تومان</td>
+                            <td>{{ number_format($item->quantity * $item->price) }} تومان</td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
                 <p class="text-end fw-bold mb-0">
                     جمع کل:
-                    {{ number_format($order->orderItems->sum(fn($item) => $item->quantity * $item->product->price)) }}
+                    {{ number_format($order->orderItems->sum(fn($item) => $item->quantity * $item->price)) }}
                     تومان
                 </p>
             </div>
