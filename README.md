@@ -1,4 +1,5 @@
 # Nahal Store
+![Tests](https://github.com/zahrafallahzade/nahal-store/actions/workflows/tests.yml/badge.svg)
 
 An online store for board games and puzzles, built with Laravel and Bootstrap (RTL, Persian UI).
 University project.
@@ -48,6 +49,7 @@ For local development only. Change these passwords before any real deployment.
 ## Testing
 ```bash
 php artisan test
+Tests also run automatically on every push with GitHub Actions.
 ```
 Tests run on an in-memory SQLite database, so the `pdo_sqlite` PHP extension is required. Your MySQL data is not touched.
 
